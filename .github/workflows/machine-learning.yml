@@ -1,0 +1,47 @@
+
+name: Analisis de Machine Learning
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ejecutar-modelos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ejecutar analisis y modelos
+        run: python analisis_datos.py
+
+      - name: Publicar informe y matriz de confusion
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-machine-learning
+          path: |
+            resumen.txt
+            matriz_confusion.png
+          if-no-files-found: error
