@@ -1,0 +1,220 @@
+INFORME DE MACHINE LEARNING
+===========================
+
+Fecha de ejecución: 2026-10-23 10:23:28 Hora est. Pacífico, Sudamérica
+
+1. INFORMACIÓN DEL DATASET
+--------------------------
+Repositorio: inria-soda/tabular-benchmark
+Archivo: reg_cat/house_sales.csv
+Fuente: https://huggingface.co/datasets/inria-soda/tabular-benchmark
+
+Descripción:
+El dataset contiene información de viviendas de King County,
+Washington, Estados Unidos. La variable objetivo es price.
+Sus valores parecen estar transformados, por lo que no se
+interpretan directamente como dólares.
+
+Número de registros: 21613
+Número de columnas: 18
+
+Columnas:
+bedrooms, bathrooms, sqft_living, sqft_lot, waterfront, grade, sqft_above, sqft_basement, yr_built, yr_renovated, lat, long, sqft_living15, sqft_lot15, date_year, date_month, date_day, price
+
+Tipos de datos:
+bedrooms           int64
+bathrooms        float64
+sqft_living        int64
+sqft_lot           int64
+waterfront         int64
+grade              int64
+sqft_above         int64
+sqft_basement      int64
+yr_built           int64
+yr_renovated       int64
+lat              float64
+long             float64
+sqft_living15      int64
+sqft_lot15         int64
+date_year          int64
+date_month         int64
+date_day           int64
+price            float64
+
+Estadísticas descriptivas:
+         bedrooms   bathrooms  sqft_living      sqft_lot  waterfront       grade  sqft_above  sqft_basement    yr_built  yr_renovated         lat        long  sqft_living15   sqft_lot15   date_year  date_month    date_day       price
+count  21613.0000  21613.0000   21613.0000  2.161300e+04  21613.0000  21613.0000  21613.0000      21613.000  21613.0000    21613.0000  21613.0000  21613.0000     21613.0000   21613.0000  21613.0000  21613.0000  21613.0000  21613.0000
+mean       3.3708      2.1148    2079.8997  1.510697e+04      0.0075      7.6569   1788.3907        291.509   1971.0051       84.4023     47.5601   -122.2139      1986.5525   12768.4557      0.3230      6.5744     15.6882     13.0478
+std        0.9301      0.7702     918.4409  4.142051e+04      0.0865      1.1755    828.0910        442.575     29.3734      401.6792      0.1386      0.1408       685.3913   27304.1796      0.4676      3.1153      8.6351      0.5267
+min        0.0000      0.0000     290.0000  5.200000e+02      0.0000      1.0000    290.0000          0.000   1900.0000        0.0000     47.1559   -122.5190       399.0000     651.0000      0.0000      1.0000      1.0000     11.2253
+25%        3.0000      1.7500    1427.0000  5.040000e+03      0.0000      7.0000   1190.0000          0.000   1951.0000        0.0000     47.4710   -122.3280      1490.0000    5100.0000      0.0000      4.0000      8.0000     12.6822
+50%        3.0000      2.2500    1910.0000  7.618000e+03      0.0000      7.0000   1560.0000          0.000   1975.0000        0.0000     47.5718   -122.2300      1840.0000    7620.0000      0.0000      6.0000     16.0000     13.0170
+75%        4.0000      2.5000    2550.0000  1.068800e+04      0.0000      8.0000   2210.0000        560.000   1997.0000        0.0000     47.6780   -122.1250      2360.0000   10083.0000      1.0000      9.0000     23.0000     13.3770
+max       33.0000      8.0000   13540.0000  1.651359e+06      1.0000     13.0000   9410.0000       4820.000   2015.0000     2015.0000     47.7776   -121.3150      6210.0000  871200.0000      1.0000     12.0000     31.0000     15.8567
+
+
+2. REVISIÓN Y PREPROCESAMIENTO
+------------------------------
+Valores faltantes: 0
+Registros duplicados: 0
+
+No se encontraron valores faltantes ni duplicados.
+Por este motivo, no fue necesario imputar datos ni eliminar
+registros duplicados. No se eliminaron posibles valores atípicos
+automáticamente.
+
+Variable objetivo: price
+Número de variables predictoras: 17
+
+División de los datos:
+- Entrenamiento: 17290 registros.
+- Prueba: 4323 registros.
+- Proporción: 80 % entrenamiento y 20 % prueba.
+- random_state: 42.
+
+Transformación aplicada:
+Se utilizó StandardScaler para estandarizar las variables
+predictoras. El escalador se ajustó únicamente con los datos
+de entrenamiento y luego se aplicó al conjunto de prueba.
+
+Estadísticas antes y después del escalado en entrenamiento:
+     Variable  Media antes  Desviación antes  Media después  Desviación después
+     bedrooms       3.3681            0.9314           -0.0                 1.0
+    bathrooms       2.1138            0.7668           -0.0                 1.0
+  sqft_living    2073.8949          907.2717           -0.0                 1.0
+     sqft_lot   14798.9474        38838.1253           -0.0                 1.0
+   waterfront       0.0072            0.0844            0.0                 1.0
+        grade       7.6538            1.1703           -0.0                 1.0
+   sqft_above    1785.9622          821.6025           -0.0                 1.0
+sqft_basement     287.9327          438.7144           -0.0                 1.0
+     yr_built    1971.1083           29.4348           -0.0                 1.0
+ yr_renovated      83.0034          398.4917            0.0                 1.0
+          lat      47.5603            0.1384           -0.0                 1.0
+         long    -122.2141            0.1405            0.0                 1.0
+sqft_living15    1982.9046          681.2127           -0.0                 1.0
+   sqft_lot15   12725.0593        27524.4623            0.0                 1.0
+    date_year       0.3218            0.4672           -0.0                 1.0
+   date_month       6.5806            3.1125           -0.0                 1.0
+     date_day      15.6600            8.6377           -0.0                 1.0
+
+La media de las variables escaladas queda aproximadamente en
+cero y su desviación estándar en uno. Esto facilita que los
+modelos trabajen con variables de diferentes escalas.
+
+
+3. MODELO DE REGRESIÓN LINEAL
+-----------------------------
+Modelo: LinearRegression
+Parámetros:
+- fit_intercept: True
+- Variables predictoras: 17
+- Datos utilizados para evaluar: 4323
+
+Métricas:
+- MAE: 0.2024
+- RMSE: 0.2629
+- R²: 0.7575
+
+Interpretación:
+El MAE representa el error absoluto medio y el RMSE penaliza
+más los errores grandes. Ambos están expresados en la escala
+de la variable price disponible en el dataset.
+
+El R² fue de 0.7575. El modelo explica una proporción considerable de la variabilidad de la variable objetivo.
+
+Intercepto: 13.045168
+
+Coeficientes:
+     Variable  Coeficiente
+        grade     0.197090
+          lat     0.184900
+     yr_built    -0.113692
+    bathrooms     0.075374
+sqft_living15     0.073939
+  sqft_living     0.067464
+   sqft_above     0.056554
+   waterfront     0.047882
+sqft_basement     0.033606
+    date_year     0.025756
+     sqft_lot     0.014303
+     bedrooms    -0.012551
+ yr_renovated     0.011181
+         long    -0.010771
+   sqft_lot15    -0.005022
+   date_month     0.004930
+     date_day    -0.003561
+
+Los coeficientes corresponden a variables estandarizadas.
+Representan el cambio estimado en price asociado con un aumento
+de una desviación estándar en cada predictor, manteniendo
+constantes las demás variables. No implican causalidad.
+
+
+4. MODELO DE CLASIFICACIÓN LOGÍSTICA
+------------------------------------
+Modelo: LogisticRegression
+Parámetros:
+- max_iter: 1000
+- Variables predictoras: 17
+- Umbral de clasificación: 13.0170
+
+Definición de las clases:
+- Clase 0: price inferior al umbral.
+- Clase 1: price igual o superior al umbral.
+
+El umbral se calculó utilizando únicamente los precios del
+conjunto de entrenamiento.
+
+Métricas:
+- Accuracy: 0.8450
+- Precision: 0.8548
+- Recall: 0.8409
+- F1-score: 0.8478
+
+Matriz de confusión:
+Filas: clase real. Columnas: clase predicha.
+
+                 Predicha 0    Predicha 1
+Real 0              1787           317
+Real 1              353           1866
+
+Interpretación:
+Accuracy mide la proporción total de predicciones correctas.
+Precision indica qué proporción de las predicciones de clase 1
+fueron correctas. Recall mide cuántos casos reales de clase 1
+fueron identificados. F1-score combina precision y recall.
+
+
+5. LIMITACIONES
+---------------
+- La variable price parece estar transformada; es necesario
+  verificar la transformación original antes de convertir
+  las métricas a unidades monetarias.
+- La regresión lineal puede no representar todas las relaciones
+  entre las características de las viviendas y su precio.
+- La clasificación agrupa los valores en dos clases y pierde
+  información sobre las diferencias exactas de precio.
+- Los resultados corresponden a una única división de los datos.
+- Las predicciones no demuestran relaciones de causa y efecto.
+
+
+6. CONCLUSIONES
+---------------
+Se entrenaron y evaluaron dos modelos utilizando el mismo
+dataset y una división de entrenamiento y prueba del 80/20.
+
+La regresión lineal obtuvo un MAE de 0.2024, un RMSE de
+0.2629 y un R² de 0.7575.
+
+La clasificación logística obtuvo un accuracy de
+0.8450 y un F1-score de 0.8478 para diferenciar
+viviendas por debajo o por encima del umbral definido.
+
+Estos resultados permiten realizar una primera evaluación
+de ambos modelos. En futuras pruebas sería útil compararlos
+con otros algoritmos y utilizar diferentes particiones para
+analizar su capacidad de generalización.
+
+Archivos generados:
+- resumen.txt
+- matriz_confusion.png
